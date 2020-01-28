@@ -1,0 +1,68 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\Luan Lins\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add query-string
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Flex Windows\Lex\bin;C:\Program Files\Python35\Scripts\;C:\Program Files\Python35\;C:\Users\Luan Lins\venv\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Flex Windows\gcc\bin;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\xampp\htdocs\projetoPW;C:\Program Files (x86)\NTRU Cryptosystems\NTRU TCG Software Stack\bin\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\GnuWin32\bin;C:\xampp\php;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Android\sdk\platform-tools;C:\Android\sdk\tools;C:\xampp\php;C:\Users\Luan Lins\AppData\Roaming\Composer\vendor\bin;C:\Program Files (x86)\Nmap;C:\Users\Luan Lins\AppData\Roaming\Dashlane\4.6.6.23032\bin\Firefox_Extension\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\components;C:\Users\Luan Lins\AppData\Local\Programs\Microsoft VS Code\bin;C:\Flex Windows\gcc\bin;C:\Flex Windows\Lex\bin;C:\Users\Luan Lins\AppData\Roaming\npm;C:\Program Files\Docker Toolbox
+
+Yarn version: 
+  1.16.0
+
+Node version: 
+  12.2.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EBUSY: resource busy or locked, unlink 'C:\Users\Luan Lins\Projeto_PD\mybookstore_back-end\node_modules\.bin\nodemon'
+
+npm manifest: 
+  {
+    "name": "api",
+    "version": "1.0.0",
+    "description": "MyBookStore",
+    "main": "index.js",
+    "scripts": {
+      "start": "nodemon ./src/server.js",
+      "dev": "nodemon ./bin/server.js --ignore __tests__",
+      "test": "jest"
+    },
+    "author": "Emanuel Ferreira",
+    "license": "ISC",
+    "dependencies": {
+      "bcryptjs": "^2.4.3",
+      "body-parser": "^1.18.3",
+      "cors": "^2.8.5",
+      "dotenv": "^8.0.0",
+      "express": "^4.16.4",
+      "factory-girl": "^5.0.4",
+      "factory-girl-mongoose": "^1.0.0",
+      "faker": "^4.1.0",
+      "jsonwebtoken": "^8.5.1",
+      "jwt-simple": "^0.5.6",
+      "mongoose": "^5.5.7",
+      "passport": "^0.4.0",
+      "passport-jwt": "^4.0.0",
+      "passport-local": "^1.0.0",
+      "socket.io": "^2.2.0",
+      "yarn-global": "^1.1.0"
+    },
+    "devDependencies": {
+      "babel-eslint": "^10.0.1",
+      "eslint": "^5.16.0",
+      "eslint-config-airbnb": "^17.1.0",
+      "eslint-plugin-import": "^2.17.2",
+      "eslint-plugin-jsx-a11y": "^6.2.1",
+      "eslint-plugin-react": "^7.13.0",
+      "jest": "^24.8.0",
+      "nodemon": "^1.19.0",
+      "supertest": "^4.0.2"
+    },
+    "repository": "https://github.com/pscoutosoares/mybookstore_back-end.git"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
