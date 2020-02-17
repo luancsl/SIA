@@ -12,7 +12,10 @@ const a = (station = null, lat, lon, urlStation = null, start_date, end_date, ca
 
   const param = 'T2M,T2M_MAX,T2M_MIN,WS2M,RH2M,ALLSKY_TOA_SW_DWN,ALLSKY_SFC_SW_DWN';
 
-  const url = `https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?request=execute&identifier=SinglePoint&parameters=${param}&startDate=${start_date}&endDate=${end_date}&userCommunity=AG&tempAverage=DAILY&outputList=JSON,ASCII&lat=${lat}&lon=${lon}&user=anonymous`;
+  const nasa_start_date = dayjs(start_date, 'YYYYMMDD').subtract(7, 'day').format('YYYYMMDD');
+  const nasa_end_date = dayjs(end_date, 'YYYYMMDD').subtract(7, 'day').format('YYYYMMDD');
+
+  const url = `https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?request=execute&identifier=SinglePoint&parameters=${param}&startDate=${nasa_start_date}&endDate=${nasa_end_date}&userCommunity=AG&tempAverage=DAILY&outputList=JSON,ASCII&lat=${lat}&lon=${lon}&user=anonymous`;
 
   request({ url: url, json: true }, async (err, response, body) => {
 

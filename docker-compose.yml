@@ -12,5 +12,5 @@ services:
       - "3000:3000"
 
     volumes:
-      - .:/usr/app
-      - /usr/app/node_modules
+      - .:/home/node/app
+      - /home/node/app/node_modules

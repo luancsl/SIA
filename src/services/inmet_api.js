@@ -26,18 +26,32 @@ const a = (station, lat, lon, url, start_date, end_date, callback) => {
 
     const param = 'ALLSKY_TOA_SW_DWN';
 
-    const url_nasa = `https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?request=execute&identifier=SinglePoint&parameters=${param}&startDate=${start_date}&endDate=${start_date}&userCommunity=AG&tempAverage=DAILY&outputList=JSON,ASCII&lat=${lat}&lon=${lon}&user=anonymous`;
+    const nasaDate = dayjs(start_date, 'YYYYMMDD').subtract(9, 'day').format('YYYYMMDD');
+
+    console.log("Dia: ", nasaDate);
+
+    const url_nasa = `https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?request=execute&identifier=SinglePoint&parameters=${param}&startDate=${nasaDate}&endDate=${nasaDate}&userCommunity=AG&tempAverage=DAILY&outputList=JSON,ASCII&lat=${lat}&lon=${lon}&user=anonymous`;
 
     request({ url: url_nasa, json: true }, async (err, response, body_nasa) => {
 
-      let rad_q0 = body_nasa['features'][0]['properties']['parameter']['ALLSKY_TOA_SW_DWN'][start_date];
+      let rad_q0 = body_nasa['features'][0]['properties']['parameter']['ALLSKY_TOA_SW_DWN'][nasaDate];
 
       request.post({ uri: url, formData: config }, (err, response, body) => {
 
         const $ = cheerio.load(body);
 
         const a = $('tbody').eq(-1).find('tr');
+
+        /* let lastValue = a.last();
+        lastValue = $(lastValue).find('span');
+        const lastUtc = parseInt(lastValue.eq(1).text());
+        console.log("tam:", a.length);
+
+        let run = false */
+
         a.each(function (i, elem) {
+
+          /* if (run) { */
           const valor = $(this).find('span');
           const date = valor.eq(0).text();
           const utc = parseFloat(valor.eq(1).text());
@@ -62,9 +76,14 @@ const a = (station, lat, lon, url, start_date, end_date, callback) => {
           }
 
           rad_qg = parseFloat(rad_qg);
-          console.log(date);
+          console.log('Test:', `${date} : ${utc}`);
 
           df = df.appendPair([1, { Date: dayjs(date, 'DD/MM/YYYY').format('YYYYMMDD'), UTC: utc, Tmax: tmax, Tmin: tmin, Hum: hum, Wind: wind, Rad_Qg: rad_qg, Rad_Q0: rad_q0 }]);
+
+          /* } else if (i === lastUtc) {
+
+            run = true;
+          } */
 
         });
 
