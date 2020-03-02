@@ -238,4 +238,113 @@ ServiceController.prototype.getEtc = async (req, res) => {
 
 };
 
+ServiceController.prototype.getCurrentEto = async (req, res) => {
+  const dado = req.query;
+
+  let selectionService = '';
+  let distance = 10;
+  let equation = 'penman-monteith';
+  let url = '';
+
+  if (dado.distance !== undefined) {
+    distance = dado.distance;
+  }
+  if (dado.equation !== undefined) {
+    equation = dado.equation;
+  }
+  if (dado.service !== undefined) {
+    selectionService = dado.service;
+  }
+  if (dado.type !== undefined) {
+    selectionService = dado.type;
+  }
+
+  const grauParaKm = 109.98;
+  const rad = distance / grauParaKm;
+
+  const lat = parseFloat(dado.lat);
+  const lon = parseFloat(dado.lon);
+  const startDate = dado.startDate
+  const endDate = dado.endDate;
+
+  delete dado.lat;
+  delete dado.lon;
+  delete dado.startDate;
+  delete dado.endDate;
+  delete dado.service;
+  delete dado.type;
+  delete dado.equation;
+  delete dado.distance;
+
+  const location = { near: [lat, lon], spherical: false, maxDistance: rad, distanceMultiplier: grauParaKm, distanceField: 'distance' };
+
+  resultado = await new Repository().requestAggregate([{ $geoNear: location }, { $match: dado }]);
+
+  console.log(resultado);
+
+  [url, selectionService] = resultado.length > 0 ? [resultado[0].url, selectionService] : [null, 'satellite'];
+
+  const Service = ServiceApi(selectionService, true);
+
+  Service(resultado[0], lat, lon, url, startDate, endDate, (resposta) => res.status(200).send(encapsulate(resposta, equation)));
+
+};
+
+ServiceController.prototype.getCurrentEtc = async (req, res) => {
+  const dado = req.query;
+
+  let selectionService = '';
+  let distance = 10;
+  let equation = 'penman-monteith';
+  let kc = '';
+  let url = '';
+
+  if (dado.distance !== undefined) {
+    distance = dado.distance;
+  }
+  if (dado.equation !== undefined) {
+    equation = dado.equation;
+  }
+  if (dado.service !== undefined) {
+    selectionService = dado.service;
+  }
+  if (dado.type !== undefined) {
+    selectionService = dado.type;
+  }
+  if (dado.kc !== undefined) {
+    kc = dado.kc;
+  }
+
+  const grauParaKm = 109.98;
+  const rad = distance / grauParaKm;
+
+  const lat = parseFloat(dado.lat);
+  const lon = parseFloat(dado.lon);
+  const startDate = dado.startDate
+  const endDate = dado.endDate;
+
+  delete dado.lat;
+  delete dado.lon;
+  delete dado.startDate;
+  delete dado.endDate;
+  delete dado.service;
+  delete dado.type;
+  delete dado.equation;
+  delete dado.distance;
+  delete dado.kc;
+
+  const location = { near: [lat, lon], spherical: false, maxDistance: rad, distanceMultiplier: grauParaKm, distanceField: 'distance' };
+
+  resultado = await new Repository().requestAggregate([{ $geoNear: location }, { $match: dado }]);
+
+  console.log(resultado);
+
+  [url, selectionService] = resultado.length > 0 ? [resultado[0].url, selectionService] : [null, 'satellite'];
+
+  const Service = ServiceApi(selectionService, true);
+
+  Service(resultado[0], lat, lon, url, startDate, endDate, (resposta) => res.status(200).send(encapsulate_etc(resposta, kc, equation)));
+
+};
+
 module.exports = ServiceController;

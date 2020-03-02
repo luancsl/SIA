@@ -1,16 +1,34 @@
 const NasaPower = require('./nasaPower_api');
 const Inmet = require('./inmet_api');
+const CurrentNasaPower = require('./c_nasaPower_api');
+const CurrentInmet = require('./c_inmet_api');
 
 
-module.exports = (service) => {
+module.exports = (service, current = false) => {
     switch (service) {
         case 'nasa_power':
-            return NasaPower;
+            if (current) {
+                return CurrentNasaPower;
+            } else {
+                return NasaPower;
+            }
         case 'satellite':
-            return NasaPower;
+            if (current) {
+                return CurrentNasaPower;
+            } else {
+                return NasaPower;
+            }
         case 'inmet':
-            return Inmet;
+            if (current) {
+                return CurrentInmet;
+            } else {
+                return Inmet;
+            }
         default:
-            return Inmet;
+            if (current) {
+                return CurrentInmet;
+            } else {
+                return Inmet;
+            }
     }
 }
