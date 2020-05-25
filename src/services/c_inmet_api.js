@@ -34,7 +34,7 @@ const a = (station, lat, lon, url, start_date, end_date, callback) => {
 
     request({ url: url_nasa, json: true }, async (err, response, body_nasa) => {
 
-      let rad_q0 = body_nasa['features'][0]['properties']['parameter']['ALLSKY_TOA_SW_DWN'][nasaDate];
+      let rad_q0 = 31.02;
 
       request.post({ uri: url, formData: config }, (err, response, body) => {
 

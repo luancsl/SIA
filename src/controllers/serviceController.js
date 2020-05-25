@@ -1,9 +1,46 @@
 require('../models/stationModel');
+const nodemailer = require("nodemailer");
 const Repository = require('../repositories/stationRepository');
 const Inmet = require('../services/inmet_api');
 const NasaPower = require('../services/nasaPower_api');
 const ServiceApi = require('../services')
 const Equation = require('../equation');
+
+
+let transporter = nodemailer.createTransport({
+  host: "smtp.googlemail.com",
+  port: 465,
+  secure: true, // true for 465, false for other ports
+  auth: {
+    user: 'unamecontact@gmail.com', // generated ethereal user
+    pass: '*112233#', // generated ethereal password
+  },
+});
+
+const sendEmail = (result) => {
+  transporter.sendMail({
+    from: '"EvApp" <unamecontact@gmail.com>', // sender address
+    to: "unamecontact@gmail.com", // list of receivers
+    subject: "#A01 - Monitoramento ETo", // Subject line
+    html: `
+    <h3><b>EvApp ETo/local Error</b></h3>
+    <h4>ETo:  ${result.features.data[0].Eto} </h4>
+    Latitude: ${result.features.parameters.location.lat}, <br>
+    Longitude: ${result.features.parameters.location.lon}, <br>
+    <a href="https://www.google.com/maps/search/?api=1&query=${result.features.parameters.location.lat},${result.features.parameters.location.lon}">Ver no mapa</a><br>
+    Serviço: ${result.features.service}, <br>
+    Tipo: ${result.features.type}, <br>
+    Equação: ${result.features.parameters.equation}, <br>
+    Data: ${result.features.data[0].Date}, <br>
+    Tmax: ${result.features.data[0].Tmax}, <br>
+    Tmin: ${result.features.data[0].Tmin}, <br>
+    Hum: ${result.features.data[0].Hum}, <br>
+    Wind: ${result.features.data[0].Wind}, <br>
+    Rad_Qo: ${result.features.data[0].Rad_Q0}, <br>
+    Rad_Qg: ${result.features.data[0].Rad_Qg}, <br> 
+    `, // html body
+  });
+}
 
 function ServiceController() { }
 
@@ -157,7 +194,10 @@ ServiceController.prototype.getEto = async (req, res) => {
 
   const Service = ServiceApi(selectionService);
 
-  Service(resultado[0], lat, lon, url, startDate, endDate, (resposta) => res.status(200).send(encapsulate(resposta, equation)));
+  Service(resultado[0], lat, lon, url, startDate, endDate, (resposta) => {
+    result = encapsulate(resposta, equation);
+    return res.status(200).send(result);
+  });
 
 };
 
@@ -286,7 +326,12 @@ ServiceController.prototype.getCurrentEto = async (req, res) => {
 
   const Service = ServiceApi(selectionService, true);
 
-  Service(resultado[0], lat, lon, url, startDate, endDate, (resposta) => res.status(200).send(encapsulate(resposta, equation)));
+  Service(resultado[0], lat, lon, url, startDate, endDate, (resposta) => {
+    result = encapsulate(resposta, equation);
+    (result.features.data[0].Eto > 8 || result.features.data[0].Eto < 1) ? sendEmail(result) : null;
+
+    return res.status(200).send(result);
+  });
 
 };
 
@@ -343,7 +388,12 @@ ServiceController.prototype.getCurrentEtc = async (req, res) => {
 
   const Service = ServiceApi(selectionService, true);
 
-  Service(resultado[0], lat, lon, url, startDate, endDate, (resposta) => res.status(200).send(encapsulate_etc(resposta, kc, equation)));
+  Service(resultado[0], lat, lon, url, startDate, endDate, (resposta) => {
+    result = encapsulate(resposta, equation);
+    (result.features.data[0].Eto > 8 || result.features.data[0].Eto < 1) ? sendEmail(result) : null;
+
+    return res.status(200).send(result);
+  });
 
 };
 
