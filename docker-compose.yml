@@ -3,11 +3,13 @@ version: "3"
 services:
   db:
     container_name: "sia_db"
+    hostname: "sia_db"
     image: mongo:latest
     ports:
       - "27017:27017"
   app:
     container_name: "sia_app"
+    hostname: "sia_app"
     build: .
     command: npm start
     ports:
