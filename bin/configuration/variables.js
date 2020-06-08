@@ -7,7 +7,7 @@ const variables = {
     // connection: process.env.connection || 'mongodb+srv://mybookstore:mybookstore@cluster0-tfzdf.mongodb.net/test?retryWrites=true'
     connection:
       process.env.connection
-      || `mongodb://sia_db:27017/${process.env.TEST_SUITE}`
+      || `mongodb://sia_db_1:27017/${process.env.TEST_SUITE}`
       || 'mongodb://db/mybookstore',
   },
 };
