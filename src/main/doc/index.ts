@@ -12,6 +12,10 @@ export const options = {
             url: 'http://localhost:3000/public/siaLogo.png'
         }
     },
+    servers: [{
+        url: '/api',
+        description: 'Servidor Principal'
+    }],
     tags: [
         {
             name: 'Culture',

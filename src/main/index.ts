@@ -18,10 +18,10 @@ try {
 
 const server = new ExpressServer(3000);
 
-server.addRoutes('/culture', cultureRoute);
-server.addRoutes('/station', stationRoute);
+server.addRoutes('/api/culture', cultureRoute);
+server.addRoutes('/api/station', stationRoute);
 
-server.getApp().get('/docs/swagger.json', (req, res) => {
+server.getApp().get('/doc/swagger.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(options);
 })
@@ -30,10 +30,10 @@ server.getApp().use('/public', express.static(path.resolve(__dirname, 'public'))
 
 
 server.getApp().get(
-    '/docs',
+    '/doc',
     redoc({
         title: 'API Docs SIA',
-        specUrl: '/docs/swagger.json',
+        specUrl: '/doc/swagger.json',
     })
 );
 
