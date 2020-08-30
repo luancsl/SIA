@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+  app:
+    build: .
+    command: npm start
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
