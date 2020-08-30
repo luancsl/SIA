@@ -1,2 +1,0 @@
-# SIA
-Smart Irrigation API
