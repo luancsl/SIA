@@ -25,6 +25,27 @@ export class StationGateway implements IStationGateway {
         });
     }
 
+    getByDistance(lat: number, lng: number, distance: number, query: object): Promise<Station[]> {
+
+        const degreeToKm = 109.98;
+        const rad = distance / degreeToKm;
+
+        const location = {
+            near: [lat, lng],
+            spherical: false,
+            maxDistance: rad,
+            distanceMultiplier: degreeToKm,
+            distanceField: 'distance'
+        };
+
+        const payload = [{ $geoNear: location }, { $match: query }];
+
+        return this._model.aggregate(payload).then(docs => {
+            const stations: Station[] = docs;
+            return stations;
+        });
+    }
+
     add(station: Station): Promise<Station> {
         return this._model.create(station).then(doc => {
             const station: Station = doc;
