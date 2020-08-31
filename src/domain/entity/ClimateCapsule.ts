@@ -8,5 +8,6 @@ export type ClimateCapsule = {
     lat: number,
     lng: number,
     elevation: number,
+    climatesCSVFormat: string,
     climates: Clime[]
 }

@@ -31,17 +31,26 @@ export class NasaPowerProvider implements IClimateGateway {
             const elevation = result['features'][0]['geometry']['coordinates'][2];
 
             for (const date of dates) {
-                const radQg = data['ALLSKY_SFC_SW_DWN'][date];
-                const radQo = data['ALLSKY_TOA_SW_DWN'][date];
-                const hum = data['RH2M'][date];
-                const tmax = data['T2M_MAX'][date];
-                const tmin = data['T2M_MIN'][date];
-                const wind = data['WS2M'][date];
+                const radQg = data['ALLSKY_SFC_SW_DWN'][date] < 0 ? null : data['ALLSKY_SFC_SW_DWN'][date];
+                const radQo = data['ALLSKY_TOA_SW_DWN'][date] < 0 ? null : data['ALLSKY_TOA_SW_DWN'][date];
+                const hum = data['RH2M'][date] < 0 ? null : data['RH2M'][date];
+                const tmax = data['T2M_MAX'][date] < 0 ? null : data['T2M_MAX'][date];
+                const tmin = data['T2M_MIN'][date] < 0 ? null : data['T2M_MIN'][date];
+                const wind = data['WS2M'][date] < 0 ? null : data['WS2M'][date];
 
                 dataFrame = dataFrame.appendPair([1, { date: date, tMax: tmax, tMin: tmin, hum: hum, windS: wind, radQg: radQg, radQo: radQo }]);
             }
 
             dataFrame = dataFrame.resetIndex();
+            dataFrame = dataFrame.select(row => {
+                const newRow = Object.assign({}, row);
+
+                if (newRow['radQo'] && newRow['radQg'] > newRow['radQo']) {
+                    newRow['radQg'] = parseFloat((newRow['radQo'] * .9).toFixed(2));
+                }
+
+                return newRow;
+            })
 
             const dataFrameJson: Clime[] = JSON.parse(dataFrame.toJSON());
 
@@ -52,6 +61,7 @@ export class NasaPowerProvider implements IClimateGateway {
                 lng,
                 service: 'nasaPower',
                 elevation,
+                climatesCSVFormat: dataFrame.toCSV(),
                 climates: dataFrameJson
             }
 
@@ -63,9 +73,9 @@ export class NasaPowerProvider implements IClimateGateway {
 
 }
 
-/* const nasa = new NasaPowerProvider();
+const nasa = new NasaPowerProvider();
 
-nasa.getClimePeriod(-8.989434, -37.488187, '20200701', '20200703').then(result => {
+nasa.getClimePeriod(-15.789343, -47.925756, '20200801', '20200802').then(result => {
     console.log(result);
-}); */
+});
 

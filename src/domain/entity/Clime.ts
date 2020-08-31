@@ -2,7 +2,9 @@
 export type Clime = {
     id?: number;
     // date of the day it was measured
-    date: string
+    date: string;
+    // Last utc measure
+    utc?: number;
     // maximum temperature
     tMax: number;
     // minimum temperature
