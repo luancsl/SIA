@@ -94,7 +94,7 @@ export class InmetProvider implements IClimateGateway {
 
 }
 
-const station: Station = {
+/* const station: Station = {
     stationCod: 'A001',
     status: 'enabled',
     type: 'automatic',
@@ -108,5 +108,5 @@ const inmet = new InmetProvider(station);
 
 inmet.getClimePeriod(-8.989434, -37.488187, '20200801', '20200802').then(result => {
     console.log(result);
-});
+}); */
 

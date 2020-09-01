@@ -73,9 +73,9 @@ export class NasaPowerProvider implements IClimateGateway {
 
 }
 
-const nasa = new NasaPowerProvider();
+/* const nasa = new NasaPowerProvider();
 
 nasa.getClimePeriod(-15.789343, -47.925756, '20200801', '20200802').then(result => {
     console.log(result);
 });
-
+ */

@@ -1,6 +1,6 @@
 
 export type Station = {
-    id?: number;
+    id?: number | undefined;
     stationCod: string,
     name?: string,
     wsiCod?: string,
@@ -12,8 +12,9 @@ export type Station = {
     country: string,
     url?: string,
     entity: string,
-    location: Coordinates,
+    location: {
+        type: string,
+        coordinates: [number]
+    },
     elevation: number,
 }
-
-type Coordinates = [number, number]
