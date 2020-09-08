@@ -1,5 +1,18 @@
-import { ClimateCapsule } from "@domain/entity/ClimateCapsule";
+import { ClimateCapsule, Clime } from "@domain/entity";
 
+
+export const climeToJsonOldRoutePresenter = (clime: Clime): object => {
+
+    return {
+        Date: clime.date,
+        Tmax: clime.tMax,
+        Tmin: clime.tMin,
+        Hum: clime.hum,
+        Wind: clime.windS,
+        Rad_Qg: clime.radQg,
+        Rad_Q0: clime.radQo,
+    }
+}
 
 export const climateToJsonOldRoutePresenter = (climateCapsule: ClimateCapsule): object => {
 
@@ -22,7 +35,7 @@ export const climateToJsonOldRoutePresenter = (climateCapsule: ClimateCapsule): 
                     coutry: climateCapsule.station.country,
                     distance: climateCapsule.station.distance.toFixed(3),
                 },
-                data: climateCapsule.climates,
+                data: climateCapsule.climates.map(climeToJsonOldRoutePresenter),
             }
         }
     } else {
@@ -39,7 +52,7 @@ export const climateToJsonOldRoutePresenter = (climateCapsule: ClimateCapsule): 
                     start_date: climateCapsule.startDate,
                     end_date: climateCapsule.endDate,
                 },
-                data: climateCapsule.climates,
+                data: climateCapsule.climates.map(climeToJsonOldRoutePresenter),
             }
         }
     }

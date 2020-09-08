@@ -8,9 +8,15 @@
     "rootDir": "src",
     "baseUrl": "./src",
     "paths": {
-      "@src/*": ["./*"],
-      "@domain/*": ["./domain/*"]
-    }
+      "@src/*": [
+        "./*"
+      ],
+      "@domain/*": [
+        "./domain/*"
+      ]
+    },
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
   },
   "include": [
     "src"

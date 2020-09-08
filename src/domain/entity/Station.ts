@@ -1,6 +1,6 @@
 
 export type Station = {
-    id?: number | undefined;
+    _id?: string;
     stationCod: string,
     name?: string,
     wsiCod?: string,
