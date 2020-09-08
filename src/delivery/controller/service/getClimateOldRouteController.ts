@@ -5,7 +5,7 @@ import { GetClimate, GetStationByDistance } from "@domain/usercase";
 import { IValidation, RequiredFieldValidation, ValidationComposite, } from "@src/helper/validations";
 import { okay, badRequest } from "@src/helper/http";
 import { Station } from "@domain/entity";
-import { climateToJsonPresenter } from "@src/delivery/presenter";
+import { climateToJsonOldRoutePresenter } from "@src/delivery/presenter";
 
 const providers = {
     'inmet': InmetProvider,
@@ -13,7 +13,7 @@ const providers = {
     'afrigis': AfrigisProvider,
 }
 
-export class GetClimateController implements Controller {
+export class GetClimateOldRouteController implements Controller {
 
     stationGateway: IStationGateway
 
@@ -23,7 +23,7 @@ export class GetClimateController implements Controller {
 
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
 
-        const { lat, lng, startDate, endDate, service, distance } = httpRequest.query;
+        const { lat, lon: lng, startDate, endDate, service, distance, type } = httpRequest.query;
         let climateProvider: IClimateGateway;
         const latValidation = new RequiredFieldValidation('lat');
         const lngValidation = new RequiredFieldValidation('lng');
@@ -43,23 +43,30 @@ export class GetClimateController implements Controller {
 
         const getStationByDistance = new GetStationByDistance(this.stationGateway, new ValidationComposite(stationValidations))
 
-        const stations: Station[] = await getStationByDistance.getByDistance(parseFloat(lat), parseFloat(lng), parseFloat(distance ?? 10), {});
+        try {
+            const stations: Station[] = await getStationByDistance.getByDistance(parseFloat(lat), parseFloat(lng), parseFloat(distance ?? 10), {});
 
-        if ((await stations).length > 0) {
-            const station = stations[0];
-            if (providers[station.entity]) {
-                climateProvider = new providers[station.entity](station);
+            if (type === 'satellite') {
+                climateProvider = new providers['nasaPower']();
+            } else if ((await stations).length > 0) {
+                const station = stations[0];
+                if (providers[station.entity]) {
+                    climateProvider = new providers[station.entity](station);
+                } else {
+                    climateProvider = new providers['nasaPower']();
+                }
             } else {
                 climateProvider = new providers['nasaPower']();
             }
-        } else {
-            climateProvider = new providers['nasaPower']();
+
+        } catch (error) {
+            return badRequest(error);
         }
 
         const getClimate = new GetClimate(climateProvider, new ValidationComposite(climateValidations));
 
         return getClimate.getClimate(lat, lng, startDate, endDate).then(climateCapsula => {
-            return okay(climateToJsonPresenter(climateCapsula));
+            return okay(climateToJsonOldRoutePresenter(climateCapsula));
         }).catch(error => {
             return badRequest(error);
         });

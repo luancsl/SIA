@@ -13,9 +13,9 @@ export type Clime = {
     hum: number;
     // wind speed
     windS: number;
-    // solar radiation at the top of the atmosphere
+    // solar radiation at the top of the atmosphere in MJ m^−2 day ^−1
     radQo: number;
-    // solar radiation on the surface
+    // solar radiation on the surface in MJ m^−2 day ^−1
     radQg: number;
 
 }

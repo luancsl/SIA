@@ -4,14 +4,16 @@
   "description": "smart irrigation api",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "nodemon --watch \"./src\" --exec \"ts-node -r tsconfig-paths/register src/main/index.ts\" -e ts",
+    "build": "rimraf dist && tsc -p tsconfig.json",
+    "start": "node dist/main/index.js",
+    "postPublic": "copyfiles -u 1 src/main/public/**/* dist",
     "dev": "nodemon --watch \"./src\" --exec \"ts-node -r tsconfig-paths/register src/main/index.ts\" -e ts",
-    "prod": "npm run build && node dist/index.js",
+    "prod": "npm run build && npm run postPublic && npm run start",
     "lint": "eslint src --ext ts",
-    "tsc": "tsc",
     "test": "jest --verbose --no-cache",
-    "s": "ts-node -r tsconfig-paths/register"
+    "seedDev": "ts-node -r tsconfig-paths/register src/main/seed/index.ts",
+    "seed": "node dist/main/seed/index.js",
+    "init": "npm run build && npm run postPublic && npm run seed && npm run start "
   },
   "author": "luan lins",
   "license": "ISC",
@@ -31,16 +33,23 @@
     "dayjs": "^1.8.31",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "module-alias": "^2.2.2",
     "mongoose": "^5.9.27",
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.11",
     "nodemon": "^2.0.4",
     "redoc-express": "^1.0.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "rimraf": "^3.0.2"
+  },
+  "_moduleAliases": {
+    "@src": "dist",
+    "@domain": "dist/domain"
   },
   "devDependencies": {
     "@types/faker": "^4.1.12",
     "@types/jest": "^26.0.7",
+    "copyfiles": "^2.3.0",
     "faker": "^5.0.0",
     "jest": "^26.1.0",
     "ts-jest": "^26.1.3",

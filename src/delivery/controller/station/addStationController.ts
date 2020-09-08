@@ -19,7 +19,8 @@ export class AddStationController implements Controller {
 
         const validations: IValidation[] = [
             new RequiredFieldValidation('stationCod'),
-            new RequiredFieldValidation('location'),
+            new RequiredFieldValidation('lat'),
+            new RequiredFieldValidation('lng'),
             new RequiredFieldValidation('entity'),
             new RequiredFieldValidation('country'),
             new RequiredFieldValidation('status'),

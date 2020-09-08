@@ -16,15 +16,16 @@ export interface IStationModel extends Document {
   entity: string,
   location: {
     type: string,
-    coordinates: [number]
+    coordinates: [number, number]
   },
-  elevation: number,
+  elevation?: number,
+  distance?: number,
 }
 
 const stationSchema = new Schema(
   {
     stationCod: { required: true, index: true, unique: true, type: String },
-    name: { unique: true, sparse: true, type: String },
+    name: { type: String },
     wsiCod: { unique: true, sparse: true, type: String },
     oscarCod: { unique: true, sparse: true, type: String },
     status: { required: true, type: String, enum: ['enabled', 'disabled'] },
@@ -34,8 +35,8 @@ const stationSchema = new Schema(
     country: { required: true, type: String, maxlength: 2, minlength: 2 },
     url: { unique: true, sparse: true, type: String },
     entity: { required: true, type: String },
-    location: { type: { type: String, default: 'Point' }, coordinates: { type: [Number] } },
-    elevation: { required: true, type: Number },
+    location: { type: { type: String, default: 'Point' }, coordinates: { type: [Number, Number] } },
+    elevation: { type: Number },
   },
   { versionKey: false, timestamps: { createdAt: 'created_at' } },
 );

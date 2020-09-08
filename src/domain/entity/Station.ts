@@ -14,7 +14,8 @@ export type Station = {
     entity: string,
     location: {
         type: string,
-        coordinates: [number]
+        coordinates: [number, number]
     },
-    elevation: number,
+    elevation?: number,
+    distance?: number,
 }

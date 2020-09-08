@@ -1,0 +1,73 @@
+Adding AfrigisStationSeed...
+(node:3176) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3176) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+MongoError: E11000 duplicate key error collection: local.stations index: stationCod_1 dup key: { stationCod: "68830" }
+    at Function.create (C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\error.js:51:12)
+    at toError (C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\utils.js:123:22)
+    at C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\operations\common_functions.js:265:39
+    at C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\connection\pool.js:405:18
+    at processTicksAndRejections (internal/process/task_queues.js:75:11) {
+  driver: true,
+  index: 0,
+  code: 11000,
+  keyPattern: { stationCod: 1 },
+  keyValue: { stationCod: '68830' }
+}
+Adding AfrigisStationSeed...
+(node:7316) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:7316) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+MongoError: E11000 duplicate key error collection: local.stations index: stationCod_1 dup key: { stationCod: "68830" }
+    at Function.create (C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\error.js:51:12)
+    at toError (C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\utils.js:123:22)
+    at C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\operations\common_functions.js:265:39
+    at C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\connection\pool.js:405:18
+    at processTicksAndRejections (internal/process/task_queues.js:75:11) {
+  driver: true,
+  index: 0,
+  code: 11000,
+  keyPattern: { stationCod: 1 },
+  keyValue: { stationCod: '68830' }
+}
+Adding AfrigisStationSeed...
+(node:2672) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2672) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+MongoError: E11000 duplicate key error collection: local.stations index: stationCod_1 dup key: { stationCod: "68830" }
+    at Function.create (C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\error.js:51:12)
+    at toError (C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\utils.js:123:22)
+    at C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\operations\common_functions.js:265:39
+    at C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\connection\pool.js:405:18
+    at processTicksAndRejections (internal/process/task_queues.js:75:11) {
+  driver: true,
+  index: 0,
+  code: 11000,
+  keyPattern: { stationCod: 1 },
+  keyValue: { stationCod: '68830' }
+}
+(node:13904) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+iniciada
+(node:13904) UnhandledPromiseRejectionWarning: MongoNetworkError: failed to connect to server [sia_db_1:27017] on first connect [Error: getaddrinfo ENOTFOUND sia_db_1
+    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:66:26) {
+  name: 'MongoNetworkError'
+}]
+    at Pool.<anonymous> (C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\topologies\server.js:438:11)
+    at Pool.emit (events.js:314:20)
+    at C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\connection\pool.js:562:14
+    at C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\connection\pool.js:995:11
+    at C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\connection\connect.js:31:7
+    at callback (C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\connection\connect.js:264:5)
+    at Socket.<anonymous> (C:\Users\luan_\TypeScript_projects\SIA\node_modules\mongodb\lib\core\connection\connect.js:294:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Socket.emit (events.js:314:20)
+    at emitErrorNT (internal/streams/destroy.js:100:8)
+    at emitErrorCloseNT (internal/streams/destroy.js:68:3)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
+(node:13904) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:13904) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:9692) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+iniciada
+(node:9692) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.

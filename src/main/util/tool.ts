@@ -14,7 +14,7 @@ export const getGlobalRadiation = (mes: number, lat: number): any => {
         { 0: 14.3, 2: 14.6, 4: 14.9, 6: 15.1, 8: 15.4, 10: 15.7, 12: 16.0, 14: 16.2, 16: 16.4, 18: 16.7, 20: 16.8, 22: 17.0, 24: 17.1, 26: 17.3, 28: 17.5, 30: 17.6 },
     ];
     let result: number = 0;
-    const mesFilter = mes - 1;
+    const mesFilter = mes;
     const latFilter = Math.abs(Math.ceil(lat));
     const latEven = latFilter % 2 != 0 ? latFilter + 1 : latFilter;
 
@@ -23,7 +23,7 @@ export const getGlobalRadiation = (mes: number, lat: number): any => {
         if ((latEven >= 0) && (latEven <= parseFloat(latRange[latRange.length - 1]))) {
             result = table[mesFilter][latEven];
         } else {
-            result = -99;
+            result = table[mesFilter][parseFloat(latRange[latRange.length - 1])];
         }
     } else {
         result = -90;

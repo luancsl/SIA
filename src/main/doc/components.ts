@@ -4,7 +4,7 @@ import {
   serverError,
   unauthorized,
   notFound,
-  forbidden
+  forbidden,
 } from './component'
 
 export default {
@@ -12,5 +12,5 @@ export default {
   serverError,
   unauthorized,
   notFound,
-  forbidden
+  forbidden,
 }
