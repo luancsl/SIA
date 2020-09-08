@@ -25,7 +25,6 @@
     "@types/node-fetch": "^2.5.7",
     "@types/nodemailer": "^6.4.0",
     "@types/nodemon": "^1.19.0",
-    "@types/request": "^2.48.5",
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
     "data-forge": "1.7.3",
@@ -36,8 +35,8 @@
     "module-alias": "^2.2.2",
     "mongoose": "^5.9.27",
     "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.11",
     "redoc-express": "^1.0.0",
-    "request": "^2.88.2",
     "rimraf": "^3.0.2"
   },
   "_moduleAliases": {
