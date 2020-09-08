@@ -1,5 +1,5 @@
 import { IStationGateway } from "@src/data/gateway/stationGateway";
-import { StationModel, IStationModel } from "@src/main/model";
+import { stationModel, IStationModel } from "@src/main/model";
 import { Model } from "mongoose";
 import { Station } from "@domain/entity";
 
@@ -8,7 +8,7 @@ export class StationGateway implements IStationGateway {
     private _model: Model<IStationModel>;
 
     constructor() {
-        this._model = StationModel;
+        this._model = stationModel;
     }
 
     getAll(): Promise<Station[]> {
@@ -27,20 +27,21 @@ export class StationGateway implements IStationGateway {
 
     getByDistance(lat: number, lng: number, distance: number, query: object): Promise<Station[]> {
 
-        const degreeToKm = 109.98;
-        const rad = distance / degreeToKm;
-
-        const location = {
-            near: [lat, lng],
-            spherical: false,
-            maxDistance: rad,
-            distanceMultiplier: degreeToKm,
-            distanceField: 'distance'
-        };
-
-        const payload = [{ $geoNear: location }, { $match: query }];
-
-        return this._model.aggregate(payload).then(docs => {
+        /* const degreeToKm = 109.98;
+        const rad = distance / degreeToKm; */
+        
+        return this._model.aggregate([
+            {
+                $geoNear: {
+                    near: { type: "Point", coordinates: [lat, lng] },
+                    distanceField: "distance",
+                    distanceMultiplier: 0.001,
+                    maxDistance: distance * 1000,
+                    query: query,
+                    spherical: true
+                }
+            }
+        ]).then(docs => {
             const stations: Station[] = docs;
             return stations;
         });

@@ -1,0 +1,29 @@
+{
+  startDate: '20200801',
+  endDate: '20200801',
+  lat: -8.989434,
+  lng: -37.488187,
+  service: 'inmet',
+  station: {
+    stationCod: 'A001',
+    status: 'enabled',
+    type: 'automatic',
+    entity: 'inmet',
+    location: [ -8.989434, -37.488187 ],
+    country: 'BR',
+    elevation: 100
+  },
+  elevation: 100,
+  climates: [
+    {
+      date: '20200801',
+      utc: 2300,
+      tMax: 23.7,
+      tMin: 13.4,
+      hum: 60.96,
+      windS: 3.84,
+      radQo: 29.89,
+      radQg: 19.54
+    }
+  ]
+}

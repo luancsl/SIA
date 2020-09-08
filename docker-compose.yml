@@ -7,7 +7,7 @@ services:
       - "27017:27017"
   app:
     build: .
-    command: npm start
+    command: npm run init
     ports:
       - "3000:3000"
 

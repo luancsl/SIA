@@ -1,11 +1,18 @@
 import express from 'express';
+import bodyParser from "body-parser";
+import { GetClimateController } from "@src/delivery/controller/service";
+import { StationGateway } from "@src/infrastructure/db/mongoose";
+import { adaptRoute } from "../../adapter";
+
+const jsonParser = bodyParser.json();
 
 const router = express.Router();
-import ControllerService from '../controllers/serviceController.js';
 
-const ctrl = new ControllerService();
+router.get('/climate', jsonParser, adaptRoute(new GetClimateController(new StationGateway())));
 
-// rotas com middleware de autorizacao
+export const serviceRoute = router;
+
+/* // rotas com middleware de autorizacao
 router.get('/', ctrl.get);
 router.get('/eto/', ctrl.getEto);
 router.get('/etc/', ctrl.getEtc);
@@ -15,9 +22,4 @@ router.get('/servicesDistance/', ctrl.getServicesDistance);
 router.get('/:id', ctrl.getById);
 router.post('/', ctrl.post);
 router.put('/:id', ctrl.put);
-router.delete('/:id', ctrl.delete);
-
-
-
-
-export const serviceRoutes = router;
+router.delete('/:id', ctrl.delete); */

@@ -1,19 +1,21 @@
 
 export type Station = {
-    id?: number;
+    _id?: string;
     stationCod: string,
-    name: string,
-    wsiCod: string,
-    oscarCod: string,
+    name?: string,
+    wsiCod?: string,
+    oscarCod?: string,
     status: string,
     type: string,
-    city: string,
-    state: string,
+    city?: string,
+    state?: string,
     country: string,
-    url: string,
+    url?: string,
     entity: string,
-    location: Coordinates,
-    elevation: number,
+    location: {
+        type: string,
+        coordinates: [number, number]
+    },
+    elevation?: number,
+    distance?: number,
 }
-
-type Coordinates = [number, number]

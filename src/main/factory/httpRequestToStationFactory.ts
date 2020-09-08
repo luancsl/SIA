@@ -22,7 +22,10 @@ export class HttpRequestToStationFactory {
             country: body.country,
             url: body.url,
             entity: body.entity,
-            location: body.location,
+            location: {
+                type: 'Point',
+                coordinates: [body.lat, body.lng],
+            },
             elevation: body.elevation,
         }
         return Station;

@@ -19,10 +19,10 @@ export class GetStationByDistanceController implements Controller {
             new RequiredFieldValidation('lng'),
         ];
         const getStation = new GetStationByDistance(this.stationGateway, new ValidationComposite(validations));
-        
+
         const { lat, lng, distance, ...query } = httpRequest.query;
 
-        return getStation.getByDistance(lat, lng, distance ?? 10, query ?? {}).then(stations => {
+        return getStation.getByDistance(parseFloat(lat), parseFloat(lng), parseFloat(distance ?? 10), query ?? {}).then(stations => {
             return okay(stations);
         }).catch(error => {
             return badRequest(error);
