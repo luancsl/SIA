@@ -1,3 +1,3 @@
-export * from "./nasaPowerProvider";
-export * from "./inmetProvider";
+export * from "./1nasaPowerProvider";
+export * from "./1inmetProvider";
 export * from "./afrigisProvider";
