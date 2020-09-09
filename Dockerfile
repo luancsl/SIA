@@ -11,9 +11,9 @@ RUN npm i --unsafe-perm
 
 COPY . .
 
-COPY --chown=node:node . .
-
 RUN npm run build
+
+COPY --chown=node:node . .
 
 USER node
 
