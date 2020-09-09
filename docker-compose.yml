@@ -16,7 +16,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./dist/:/home/node/app/dist/
       - ./node_modules/:/home/node/app/node_modules/
       - ./package.json:/home/node/app/package.json
     links:
