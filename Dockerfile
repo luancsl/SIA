@@ -1,6 +1,6 @@
 FROM node:14
 
-RUN mkdir -p /home/node/app/node_modules &&  mkdir -p /home/node/app/dist && chown -R node:node /home/node/app
+RUN mkdir -p /home/node/app/node_modules &&  mkdir -p /home/node/app/dist
 
 WORKDIR /home/node/app
 COPY package.json ./
@@ -12,6 +12,8 @@ RUN npm i --unsafe-perm
 COPY . .
 
 RUN npm run build
+
+RUN chown -R node:node /home/node/app
 
 COPY --chown=node:node . .
 
