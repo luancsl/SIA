@@ -9,6 +9,7 @@ services:
   app:
     build: .
     restart: always
+    working_dir: /home/node/app
     command: npm start
     environment:
       - MONGO_URL=mongodb://db:27017/sia
