@@ -9,7 +9,7 @@ services:
   app:
     build: .
     restart: always
-    command: npm run init
+    command: npm start
     environment:
       - MONGO_URL=mongodb://db:27017/sia
     ports:
