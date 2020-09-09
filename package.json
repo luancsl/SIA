@@ -4,16 +4,16 @@
   "description": "smart irrigation api",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.json",
     "start": "node dist/main/index.js",
     "postPublic": "copyfiles -u 1 src/main/public/**/* dist",
+    "build": "rimraf dist && tsc -p tsconfig.json && npm run postPublic",
     "dev": "nodemon --watch \"./src\" --exec \"ts-node -r tsconfig-paths/register src/main/index.ts\" -e ts",
-    "prod": "npm run build && npm run postPublic && npm run start",
+    "prod": "npm run build && npm run seed && npm run start",
     "lint": "eslint src --ext ts",
     "test": "jest --verbose --no-cache",
     "seedDev": "ts-node -r tsconfig-paths/register src/main/seed/index.ts",
     "seed": "node dist/main/seed/index.js",
-    "init": "npm run build && npm run postPublic && npm run seed && npm run start "
+    "init": "npm run seed && npm run start"
   },
   "author": "luan lins",
   "license": "ISC",

@@ -3,14 +3,20 @@ version: "3"
 services:
   db:
     image: mongo:latest
+    restart: always
     ports:
       - "27017:27017"
   app:
     build: .
+    restart: always
     command: npm run init
+    environment:
+      - MONGO_URL=mongodb://db:27017/sia
     ports:
       - "3000:3000"
-
     volumes:
-      - .:/home/node/app
-      - /home/node/app/node_modules
+      - ./dist/:/home/node/app/dist/
+      - ./node_modules/:/home/node/app/node_modules/
+      - ./package.json:/home/node/app/package.json
+    links:
+      - db
