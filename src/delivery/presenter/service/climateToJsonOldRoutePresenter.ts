@@ -12,7 +12,7 @@ export const climeToJsonOldRoutePresenter = (clime: any): object => {
         Rad_Qg: radQg ?? -99,
         Rad_Q0: radQo ?? -99,
         equation: rest.equation,
-        Eto: rest.eto
+        Eto: parseFloat(rest.eto.toFixed(2))
     }
 }
 
@@ -35,7 +35,7 @@ export const climateToJsonOldRoutePresenter = (climateCapsule: any): object => {
                     city: climateCapsule.station.city,
                     state: climateCapsule.station.state,
                     country: climateCapsule.station.country,
-                    distance: climateCapsule.station.distance,
+                    distance: parseFloat(climateCapsule.station.distance.toFixed(2)),
                     equation: climateCapsule.climates[0].equation
                 },
                 data: climateCapsule.climates.map(climeToJsonOldRoutePresenter),
