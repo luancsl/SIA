@@ -8,9 +8,9 @@ export * from "./linacre";
 import { PenmanMonteithHandler, HargreavesSamaniHandler, PriestleyTaylorHandler, LinacreHandler, Camargo71Handler } from ".";
 
 export const equationsHandler = {
-    'penman-monteith': PenmanMonteithHandler,
-    'hargreaves-samani': HargreavesSamaniHandler,
-    'priestley-taylor': PriestleyTaylorHandler,
-    'linacre': LinacreHandler,
-    'camargo-71': Camargo71Handler
+    'Penman-Monteith': PenmanMonteithHandler,
+    'Hargreaves-Samani': HargreavesSamaniHandler,
+    'Priestley-Taylor': PriestleyTaylorHandler,
+    'Linacre': LinacreHandler,
+    'Camargo-71': Camargo71Handler
 }
