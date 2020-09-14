@@ -25,7 +25,11 @@ export class GetEtoOldRouteController implements Controller {
 
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
 
-        const { lat, lon: lng, startDate, endDate, service, distance, type, equation } = httpRequest.query;
+        const { startDate, endDate, service, distance, type, equation } = httpRequest.query;
+
+        const lat = httpRequest.query.lat ? parseFloat(httpRequest.query.lat) : null;
+        const lng = httpRequest.query.lon ? parseFloat(httpRequest.query.lon) : null;
+
         let climateProvider: IClimateGateway;
         const latValidation = new RequiredFieldValidation('lat');
         const lngValidation = new RequiredFieldValidation('lng');
@@ -46,7 +50,7 @@ export class GetEtoOldRouteController implements Controller {
         const getStationByDistance = new GetStationByDistance(this.stationGateway, new ValidationComposite(stationValidations))
 
         try {
-            const stations: Station[] = await getStationByDistance.getByDistance(parseFloat(lat), parseFloat(lng), parseFloat(distance ?? 10), {});
+            const stations: Station[] = await getStationByDistance.getByDistance(lat, lng, parseFloat(distance ?? 10), {});
 
             if (type === 'satellite') {
                 climateProvider = new providers['nasaPower']();

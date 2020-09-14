@@ -1,7 +1,7 @@
 import { ClimateCapsule, Clime } from "@domain/entity";
 
 
-export const climeToJsonOldRoutePresenter = (clime: Clime): object => {
+export const climeToJsonOldRoutePresenter = (clime: any): object => {
     const { date, tMax, tMin, hum, windS, radQg, radQo, ...rest } = clime;
     return {
         Date: date,
@@ -11,7 +11,8 @@ export const climeToJsonOldRoutePresenter = (clime: Clime): object => {
         Wind: windS ?? -99,
         Rad_Qg: radQg ?? -99,
         Rad_Q0: radQo ?? -99,
-        ...rest,
+        equation: rest.equation,
+        Eto: rest.eto
     }
 }
 

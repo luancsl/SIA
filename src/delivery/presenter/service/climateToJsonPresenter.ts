@@ -18,7 +18,7 @@ export const climateToJsonPresenter = (climateCapsule: ClimateCapsule): object =
                         name: climateCapsule.station.name,
                         city: climateCapsule.station.city,
                         state: climateCapsule.station.state,
-                        coutry: climateCapsule.station.country,
+                        country: climateCapsule.station.country,
                         distance: climateCapsule.station.distance,
                     },
                     startDate: climateCapsule.startDate,
