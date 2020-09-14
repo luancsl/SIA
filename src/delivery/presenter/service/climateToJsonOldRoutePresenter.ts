@@ -33,8 +33,8 @@ export const climateToJsonOldRoutePresenter = (climateCapsule: any): object => {
                     name: climateCapsule.station.name,
                     city: climateCapsule.station.city,
                     state: climateCapsule.station.state,
-                    coutry: climateCapsule.station.country,
-                    distance: climateCapsule.station.distance.toFixed(3),
+                    country: climateCapsule.station.country,
+                    distance: climateCapsule.station.distance,
                     equation: climateCapsule.climates[0].equation
                 },
                 data: climateCapsule.climates.map(climeToJsonOldRoutePresenter),
