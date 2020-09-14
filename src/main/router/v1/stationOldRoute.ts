@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from "body-parser";
-import { AddStationController, GetStationController, GetStationByDistanceOldRouteController, UpdateStationController, RemoveStationController } from "@src/delivery/controller/station";
+import { AddStationController, GetStationOldRouteController, GetStationByDistanceOldRouteController, UpdateStationController, RemoveStationController } from "@src/delivery/controller/station";
 import { StationGateway } from "@src/infrastructure/db/mongoose";
 import { adaptRoute } from "../../adapter";
 
@@ -9,7 +9,7 @@ const jsonParser = bodyParser.json();
 const router = express.Router();
 
 router.get('/stationsDistance', jsonParser, adaptRoute(new GetStationByDistanceOldRouteController(new StationGateway())));
-router.get('/:id?', jsonParser, adaptRoute(new GetStationController(new StationGateway())));
+router.get('/:id?', jsonParser, adaptRoute(new GetStationOldRouteController(new StationGateway())));
 router.post('/', jsonParser, adaptRoute(new AddStationController(new StationGateway())));
 router.put('/:id', jsonParser, adaptRoute(new UpdateStationController(new StationGateway())));
 router.delete('/:id?', jsonParser, adaptRoute(new RemoveStationController(new StationGateway())));

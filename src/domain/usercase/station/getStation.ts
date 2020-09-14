@@ -11,8 +11,8 @@ export class GetStation {
         this.stationGateway = stationGateway;
     }
 
-    async getAll(): Promise<Station[]> {
-        return this.stationGateway.getAll();
+    async getAll(query: any = {}): Promise<Station[]> {
+        return this.stationGateway.getAll(query);
     }
 
     async getById(id: number): Promise<Station> {

@@ -1,7 +1,7 @@
 import { Station } from "@domain/entity/Station"
 
 export interface IStationGateway {
-    getAll(): Promise<Station[]>;
+    getAll(query: any): Promise<Station[]>;
     getById(id: number): Promise<Station>;
     getByDistance(lat: number, lng: number, distance: number, query: object): Promise<Station[]>;
     add(station: Station): Promise<Station>;

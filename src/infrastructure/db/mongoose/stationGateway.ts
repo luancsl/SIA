@@ -11,8 +11,8 @@ export class StationGateway implements IStationGateway {
         this._model = stationModel;
     }
 
-    getAll(): Promise<Station[]> {
-        return this._model.find().then(docs => {
+    getAll(query: any = {}): Promise<Station[]> {
+        return this._model.find(query).then(docs => {
             const stations: Station[] = docs;
             return stations;
         });
@@ -29,7 +29,7 @@ export class StationGateway implements IStationGateway {
 
         /* const degreeToKm = 109.98;
         const rad = distance / degreeToKm; */
-        
+
         return this._model.aggregate([
             {
                 $geoNear: {

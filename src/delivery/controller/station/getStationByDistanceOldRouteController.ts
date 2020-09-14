@@ -3,7 +3,7 @@ import { IStationGateway } from "@src/data/gateway";
 import { GetStationByDistance } from "@domain/usercase/station";
 import { IValidation, RequiredFieldValidation, ValidationComposite, } from "@src/helper/validations";
 import { okay, badRequest } from "@src/helper/http";
-import { climateToJsonOldRoutePresenter } from '@src/delivery/presenter/station/stationToJsonOldRoutePresenter';
+import { stationToJsonOldRoutePresenter } from '@src/delivery/presenter/station/stationToJsonOldRoutePresenter';
 
 export class GetStationByDistanceOldRouteController implements Controller {
 
@@ -24,7 +24,7 @@ export class GetStationByDistanceOldRouteController implements Controller {
         const { lat, lon: lng, distance, ...query } = httpRequest.query;
 
         return getStation.getByDistance(parseFloat(lat), parseFloat(lng), parseFloat(distance ?? 10), query ?? {}).then(stations => {
-            return okay(stations.map(climateToJsonOldRoutePresenter));
+            return okay(stations.map(stationToJsonOldRoutePresenter));
         }).catch(error => {
             return badRequest(error);
         });
