@@ -2,19 +2,20 @@ import { ClimateCapsule, Clime } from "@domain/entity";
 
 
 export const climeToJsonOldRoutePresenter = (clime: Clime): object => {
-
+    const { date, tMax, tMin, hum, windS, radQg, radQo, ...rest } = clime;
     return {
-        Date: clime.date,
-        Tmax: clime.tMax,
-        Tmin: clime.tMin,
-        Hum: clime.hum,
-        Wind: clime.windS,
-        Rad_Qg: clime.radQg,
-        Rad_Q0: clime.radQo,
+        Date: date,
+        Tmax: tMax ?? -99,
+        Tmin: tMin ?? -99,
+        Hum: hum ?? -99,
+        Wind: windS ?? -99,
+        Rad_Qg: radQg ?? -99,
+        Rad_Q0: radQo ?? -99,
+        ...rest,
     }
 }
 
-export const climateToJsonOldRoutePresenter = (climateCapsule: ClimateCapsule): object => {
+export const climateToJsonOldRoutePresenter = (climateCapsule: any): object => {
 
     if (climateCapsule.station) {
         return {
@@ -34,6 +35,7 @@ export const climateToJsonOldRoutePresenter = (climateCapsule: ClimateCapsule): 
                     state: climateCapsule.station.state,
                     coutry: climateCapsule.station.country,
                     distance: climateCapsule.station.distance.toFixed(3),
+                    equation: climateCapsule.climates[0].equation
                 },
                 data: climateCapsule.climates.map(climeToJsonOldRoutePresenter),
             }
@@ -51,6 +53,7 @@ export const climateToJsonOldRoutePresenter = (climateCapsule: ClimateCapsule): 
                     },
                     start_date: climateCapsule.startDate,
                     end_date: climateCapsule.endDate,
+                    equation: climateCapsule.climates[0].equation
                 },
                 data: climateCapsule.climates.map(climeToJsonOldRoutePresenter),
             }
