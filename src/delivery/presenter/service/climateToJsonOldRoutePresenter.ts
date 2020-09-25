@@ -27,7 +27,7 @@ export const climateToJsonOldRoutePresenter = (climateCapsule: any): object => {
                     location: {
                         lat: climateCapsule.lat,
                         lon: climateCapsule.lng,
-                        elevation: climateCapsule.elevation,
+                        elevation: climateCapsule.elevation ?? -99,
                     },
                     start_date: climateCapsule.startDate,
                     end_date: climateCapsule.endDate,
@@ -50,7 +50,7 @@ export const climateToJsonOldRoutePresenter = (climateCapsule: any): object => {
                     location: {
                         lat: climateCapsule.lat,
                         lon: climateCapsule.lng,
-                        elevation: climateCapsule.elevation,
+                        elevation: climateCapsule.elevation ?? -99,
                     },
                     start_date: climateCapsule.startDate,
                     end_date: climateCapsule.endDate,
