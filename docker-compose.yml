@@ -10,12 +10,13 @@ services:
     build: .
     restart: always
     working_dir: /home/node/app
-    command: npm run init
+    command: npm run prod
     environment:
       - MONGO_URL=mongodb://db:27017/sia
     ports:
       - "3000:3000"
     volumes:
       - ./package.json:/home/node/app/package.json
+      - ./src:/home/node/app/src
     links:
       - db

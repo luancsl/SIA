@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/eto', jsonParser, adaptRoute(new GetEtoOldRouteController(new StationGateway())));
 router.get('/etc', jsonParser, adaptRoute(new GetClimateOldRouteController(new StationGateway())));
-router.get('/currentEto', jsonParser, adaptRoute(new GetClimateOldRouteController(new StationGateway())));
+router.get('/currentEto', jsonParser, adaptRoute(new GetEtoOldRouteController(new StationGateway())));
 router.get('/currentEtc', jsonParser, adaptRoute(new GetClimateOldRouteController(new StationGateway())));
 
 export const serviceOldRoute = router;

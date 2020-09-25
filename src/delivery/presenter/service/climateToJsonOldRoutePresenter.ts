@@ -12,7 +12,7 @@ export const climeToJsonOldRoutePresenter = (clime: any): object => {
         Rad_Qg: radQg ?? -99,
         Rad_Q0: radQo ?? -99,
         equation: rest.equation,
-        Eto: parseFloat(rest.eto.toFixed(2))
+        Eto: rest.eto ? parseFloat(rest.eto.toFixed(2)) : -99
     }
 }
 

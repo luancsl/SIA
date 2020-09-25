@@ -10,13 +10,10 @@ RUN npm config set unsafe-perm true
 RUN npm cache clean -f
 RUN npm i --unsafe-perm
 
-COPY . .
-
-COPY --chown=node:node . .
+COPY --chown=node:node tsconfig.json ./
+COPY --chown=node:node src ./src
 
 USER node
-
-RUN npm run build
 
 EXPOSE 3000 27017
 
