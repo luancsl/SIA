@@ -1,10 +1,10 @@
 import { Controller, HttpRequest, HttpResponse } from "../index";
 import { IClimateGateway, IStationGateway } from "@src/data/gateway";
-import { InmetProvider, NasaPowerProvider, AfrigisProvider } from "@src/infrastructure/service/index";
+import { InmetProvider, NasaPowerProvider, AfrigisProvider, AemetProvider, NoaaProvider } from "@src/infrastructure/service/index";
 import { GetClimate, GetStationByDistance } from "@domain/usercase";
 import { IValidation, RequiredFieldValidation, ValidationComposite, } from "@src/helper/validations";
 import { okay, badRequest } from "@src/helper/http";
-import { Station, Eto } from "@domain/entity";
+import { Station, Eto, ClimateCapsule } from "@domain/entity";
 import { climateToJsonOldRoutePresenter } from "@src/delivery/presenter";
 import { equationsHandler } from "@src/infrastructure/equation";
 import { getEtoBestEquation } from "@src/main/factory";
@@ -13,6 +13,8 @@ const providers = {
     'inmet': InmetProvider,
     'nasaPower': NasaPowerProvider,
     'afrigis': AfrigisProvider,
+    'aemet': AemetProvider,
+    'noaa': NoaaProvider
 }
 
 export class GetEtoOldRouteController implements Controller {
@@ -57,7 +59,12 @@ export class GetEtoOldRouteController implements Controller {
             } else if ((await stations).length > 0) {
                 const station = stations[0];
                 if (providers[station.entity]) {
-                    climateProvider = new providers[station.entity](station);
+                    const key = stations.length > 1 ? stations[1].entity : station.entity;
+                    if (station.entity !== key) {
+                        climateProvider = new providers[stations[1].entity](stations[1]);
+                    } else {
+                        climateProvider = new providers[station.entity](station);
+                    }
                 } else {
                     climateProvider = new providers['nasaPower']();
                 }
@@ -66,15 +73,15 @@ export class GetEtoOldRouteController implements Controller {
             }
 
         } catch (error) {
+            console.log(error);
             return badRequest(error);
         }
 
         const getClimate = new GetClimate(climateProvider, new ValidationComposite(climateValidations));
 
-        return getClimate.getClimate(lat, lng, startDate, endDate).then(climateCapsula => {
+        const bundle = (climateCapsula: ClimateCapsule) => {
             climateCapsula.climates = climateCapsula.climates.map(clime => {
                 type ClimeComposedEto = typeof clime & Eto;
-                console.log("clima: ", clime);
                 let eto: Eto;
                 if (equation in equationsHandler) {
                     const getEtoChooseEquation = new equationsHandler[equation]();
@@ -90,10 +97,23 @@ export class GetEtoOldRouteController implements Controller {
                 }
                 return data;
             });
-            return okay(climateToJsonOldRoutePresenter(climateCapsula));
+            return climateCapsula
+        }
+
+        return getClimate.getClimate(lat, lng, startDate, endDate).then(climateCapsula => {
+            if (climateCapsula.climates.length > 0) {
+                return okay(climateToJsonOldRoutePresenter(bundle(climateCapsula)));
+            } else {
+                getClimate.setClimateGateway(new providers['nasaPower']());
+                return getClimate.getClimate(lat, lng, startDate, endDate).then(climateCapsula => {
+                    return okay(climateToJsonOldRoutePresenter(bundle(climateCapsula)));
+                }).catch(error => {
+                    return badRequest(error);
+                });
+            }
         }).catch(error => {
+            console.log(error)
             return badRequest(error);
         });
-
     }
 }

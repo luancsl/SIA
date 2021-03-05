@@ -86,6 +86,47 @@ export const culturePath = {
     }
 }
 
+export const cultureSearch = {
+    get: {
+        tags: ['Culture'],
+        summary: 'Find culture from a text',
+        description: 'This route returns an array with all cultures found from the text given in order of greater identification',
+        parameters: [
+            {
+                name: 'text',
+                in: 'query',
+                description: 'Search text',
+                schema: {
+                    type: 'string'
+                },
+                example: "small vegetables"
+            }
+        ],
+        responses: {
+            200: {
+                description: 'Success',
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'array',
+                            items: { $ref: '#/schemas/cultureSchema' }
+                        }
+                    }
+                }
+            },
+            204: {
+                description: 'Success, but no data to display'
+            },
+            404: {
+                $ref: '#/components/notFound'
+            },
+            500: {
+                $ref: '#/components/serverError'
+            }
+        }
+    },
+}
+
 export const cultureIdPath = {
     parameters: [{
         name: 'cultureId',

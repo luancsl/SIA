@@ -1,3 +1,6 @@
+
+
+
 export const afrigisStationSeed = [
     {
         "stationCod": 68830,

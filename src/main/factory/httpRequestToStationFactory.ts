@@ -24,7 +24,7 @@ export class HttpRequestToStationFactory {
             entity: body.entity,
             location: {
                 type: 'Point',
-                coordinates: [body.lat, body.lng],
+                coordinates: [body.lng, body.lat],
             },
             elevation: body.elevation,
         }

@@ -1,6 +1,7 @@
 import { IClimateGateway } from "@src/data/gateway/climateGateway";
 import { ClimateCapsule, Clime } from "@domain/entity";
 import { DataFrame, IDataFrame } from 'data-forge';
+import { getGlobalRadiation } from "@src/main/util";
 import dayjs from 'dayjs';
 import fetch from 'node-fetch';
 
@@ -14,10 +15,21 @@ export class NasaPowerProvider implements IClimateGateway {
 
         const parameters = 'T2M,T2M_MAX,T2M_MIN,WS2M,RH2M,ALLSKY_TOA_SW_DWN,ALLSKY_SFC_SW_DWN';
 
-        const nasaPowerStartDate = dayjs(startDate, 'YYYYMMDD').subtract(9, 'day').format('YYYYMMDD');
-        const nasaPowerEndDate = dayjs(endDate, 'YYYYMMDD').subtract(9, 'day').format('YYYYMMDD');
+        const dateDelay = dayjs().subtract(9, 'day');
+        let startDateFormat: any = dayjs(startDate, 'YYYYMMDD');
+        let endDateFormat: any = dayjs(endDate, 'YYYYMMDD');
+        
+        if (endDateFormat > dateDelay) {
+            if (startDateFormat > dateDelay) {
+                startDateFormat = dateDelay;
+            }
+            endDateFormat = dateDelay;
+        }
 
-        const url = `https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?request=execute&identifier=SinglePoint&parameters=${parameters}&startDate=${nasaPowerStartDate}&endDate=${nasaPowerEndDate}&userCommunity=AG&tempAverage=DAILY&outputList=JSON,ASCII&lat=${lat}&lon=${lng}&user=anonymous`;
+        startDateFormat = startDateFormat.format('YYYYMMDD');
+        endDateFormat = endDateFormat.format('YYYYMMDD');
+
+        const url = `https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?request=execute&identifier=SinglePoint&parameters=${parameters}&startDate=${startDateFormat}&endDate=${endDateFormat}&userCommunity=AG&tempAverage=DAILY&outputList=JSON,ASCII&lat=${lat}&lon=${lng}&user=anonymous`;
 
         return fetch(url).then(async body => {
 
@@ -31,12 +43,12 @@ export class NasaPowerProvider implements IClimateGateway {
             const elevation = result['features'][0]['geometry']['coordinates'][2];
 
             for (const date of dates) {
-                const radQg = data['ALLSKY_SFC_SW_DWN'][date] < 0 ? null : data['ALLSKY_SFC_SW_DWN'][date];
-                const radQo = data['ALLSKY_TOA_SW_DWN'][date] < 0 ? null : data['ALLSKY_TOA_SW_DWN'][date];
-                const hum = data['RH2M'][date] < 0 ? null : data['RH2M'][date];
-                const tmax = data['T2M_MAX'][date] < 0 ? null : data['T2M_MAX'][date];
-                const tmin = data['T2M_MIN'][date] < 0 ? null : data['T2M_MIN'][date];
-                const wind = data['WS2M'][date] < 0 ? null : data['WS2M'][date];
+                const radQg = data['ALLSKY_SFC_SW_DWN'][date] === -99 ? null : data['ALLSKY_SFC_SW_DWN'][date];
+                const radQo = data['ALLSKY_TOA_SW_DWN'][date] === -99 ? getGlobalRadiation(dayjs(date, 'YYYYMMDD').month(), lat) : data['ALLSKY_TOA_SW_DWN'][date];
+                const hum = data['RH2M'][date] === -99 ? null : data['RH2M'][date];
+                const tmax = data['T2M_MAX'][date] === -99 ? null : data['T2M_MAX'][date];
+                const tmin = data['T2M_MIN'][date] === -99 ? null : data['T2M_MIN'][date];
+                const wind = data['WS2M'][date] === -99 ? null : data['WS2M'][date];
 
                 dataFrame = dataFrame.appendPair([1, { date: date, tMax: tmax, tMin: tmin, hum: hum, windS: wind, radQg: radQg, radQo: radQo }]);
             }

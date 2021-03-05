@@ -4,8 +4,10 @@ import { InmetProvider, NasaPowerProvider, AfrigisProvider, AemetProvider, NoaaP
 import { GetClimate, GetStationByDistance } from "@domain/usercase";
 import { IValidation, RequiredFieldValidation, ValidationComposite, } from "@src/helper/validations";
 import { okay, badRequest } from "@src/helper/http";
-import { Station } from "@domain/entity";
+import { Station, Eto } from "@domain/entity";
 import { climateToJsonOldRoutePresenter } from "@src/delivery/presenter";
+import { equationsHandler } from "@src/infrastructure/equation";
+import { getEtoBestEquation } from "@src/main/factory";
 
 const providers = {
     'inmet': InmetProvider,
@@ -15,7 +17,9 @@ const providers = {
     'noaa': NoaaProvider
 }
 
-export class GetClimateOldRouteController implements Controller {
+/* dfdfdfdfd */
+
+export class GetContinuousEtoOldRouteController implements Controller {
 
     stationGateway: IStationGateway
 
@@ -25,7 +29,11 @@ export class GetClimateOldRouteController implements Controller {
 
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
 
-        const { lat, lon: lng, startDate, endDate, service, distance, type } = httpRequest.query;
+        const { startDate, endDate, service, distance, type, equation } = httpRequest.query;
+
+        const lat = httpRequest.query.lat ? parseFloat(httpRequest.query.lat) : null;
+        const lng = httpRequest.query.lon ? parseFloat(httpRequest.query.lon) : null;
+
         let climateProvider: IClimateGateway;
         const latValidation = new RequiredFieldValidation('lat');
         const lngValidation = new RequiredFieldValidation('lng');
@@ -46,7 +54,7 @@ export class GetClimateOldRouteController implements Controller {
         const getStationByDistance = new GetStationByDistance(this.stationGateway, new ValidationComposite(stationValidations))
 
         try {
-            const stations: Station[] = await getStationByDistance.getByDistance(parseFloat(lat), parseFloat(lng), parseFloat(distance ?? 10), {});
+            const stations: Station[] = await getStationByDistance.getByDistance(lat, lng, parseFloat(distance ?? 10), {});
 
             if (type === 'satellite') {
                 climateProvider = new providers['nasaPower']();
@@ -68,6 +76,24 @@ export class GetClimateOldRouteController implements Controller {
         const getClimate = new GetClimate(climateProvider, new ValidationComposite(climateValidations));
 
         return getClimate.getClimate(lat, lng, startDate, endDate).then(climateCapsula => {
+            climateCapsula.climates = climateCapsula.climates.map(clime => {
+                type ClimeComposedEto = typeof clime & Eto;
+                console.log("clima: ", clime);
+                let eto: Eto;
+                if (equation in equationsHandler) {
+                    const getEtoChooseEquation = new equationsHandler[equation]();
+                    eto = getEtoChooseEquation.handle({ ...clime, lat: climateCapsula.lat, elevation: climateCapsula.elevation });
+                } else {
+                    eto = getEtoBestEquation.handle({ ...clime, lat: climateCapsula.lat, elevation: climateCapsula.elevation });
+                }
+
+                const data: ClimeComposedEto = {
+                    ...clime,
+                    equation: eto.equation,
+                    eto: eto.eto
+                }
+                return data;
+            });
             return okay(climateToJsonOldRoutePresenter(climateCapsula));
         }).catch(error => {
             return badRequest(error);

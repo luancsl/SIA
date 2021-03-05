@@ -33,7 +33,7 @@ export class StationGateway implements IStationGateway {
         return this._model.aggregate([
             {
                 $geoNear: {
-                    near: { type: "Point", coordinates: [lat, lng] },
+                    near: { type: "Point", coordinates: [lng, lat] },
                     distanceField: "distance",
                     distanceMultiplier: 0.001,
                     maxDistance: distance * 1000,

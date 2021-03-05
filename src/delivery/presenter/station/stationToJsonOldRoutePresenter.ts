@@ -12,7 +12,7 @@ export const stationToJsonOldRoutePresenter = (station: Station): object => {
         country: station.country,
         entity: station.entity,
         url: station.url,
-        location: [station.location.coordinates[0], station.location.coordinates[1]],
+        location: [station.location.coordinates[1], station.location.coordinates[0]],
         distance: station.distance,
     }
 

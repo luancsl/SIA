@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from "body-parser";
-import { GetClimateOldRouteController, GetEtoOldRouteController } from "@src/delivery/controller/service";
+import { GetClimateOldRouteController, GetEtoOldRouteController, GetContinuousEtoOldRouteController } from "@src/delivery/controller/service";
 import { StationGateway } from "@src/infrastructure/db/mongoose";
 import { adaptRoute } from "../../adapter";
 
@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/eto', jsonParser, adaptRoute(new GetEtoOldRouteController(new StationGateway())));
 router.get('/etc', jsonParser, adaptRoute(new GetClimateOldRouteController(new StationGateway())));
-router.get('/currentEto', jsonParser, adaptRoute(new GetEtoOldRouteController(new StationGateway())));
+router.get('/currentEto', jsonParser, adaptRoute(new GetContinuousEtoOldRouteController(new StationGateway())));
 router.get('/currentEtc', jsonParser, adaptRoute(new GetClimateOldRouteController(new StationGateway())));
 
 export const serviceOldRoute = router;

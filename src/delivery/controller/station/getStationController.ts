@@ -21,7 +21,7 @@ export class GetStationController implements Controller {
             });
 
         } else {
-            const station = await getStation.getAll();
+            const station = await getStation.getAll(httpRequest.query);
             return okay(station);
         }
 

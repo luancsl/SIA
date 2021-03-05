@@ -11,21 +11,15 @@ export class CultureGateway implements ICultureGateway {
         this._model = CultureModel;
     }
 
-    getAll(): Promise<Culture[]> {
-        return this._model.find().then(docs => {
+    getAll(query: any = {}): Promise<Culture[]> {
+        const { tags, ...rest } = query;
+        const options = tags ? { tags: { $in: tags.split(",") }, ...rest } : rest;
+        return this._model.find(options).then(docs => {
             const cultures: Culture[] = [];
             docs.forEach((doc, i) => {
                 const culture: Culture = {
                     id: doc._id,
-                    class: doc.class,
-                    culture: doc.culture,
-                    type: doc.type,
-                    region: doc.region,
-                    ini: doc.ini,
-                    mid: doc.mid,
-                    end: doc.end,
-                    maxCropHeight: doc.maxCropHeight,
-                    imageLink: doc.imageLink,
+                    ...doc.toObject(),
                 }
                 cultures.push(culture);
             });
@@ -34,36 +28,34 @@ export class CultureGateway implements ICultureGateway {
     }
 
     getById(id: number): Promise<Culture> {
+        /* this._model.findByIdAndUpdate(id, { $inc: { access: 1 } }); */
         return this._model.findById(id).then(doc => {
+            doc.access += 1;
+            doc.save();
+            console.log(doc.toObject())
             const culture: Culture = {
                 id: doc._id,
-                class: doc.class,
-                culture: doc.culture,
-                type: doc.type,
-                region: doc.region,
-                ini: doc.ini,
-                mid: doc.mid,
-                end: doc.end,
-                maxCropHeight: doc.maxCropHeight,
-                imageLink: doc.imageLink,
+                ...doc.toObject(),
             }
             return culture;
         });
+    }
+
+    getByText(text: string, query: object): Promise<Culture[]> {
+        return this._model.find({ ...query, $text: { $search: text } }, { score: { $meta: "textScore" } })
+            .sort({ score: { $meta: "textScore" } })
+            .limit(20)
+            .then(docs => {
+                const cultures: Culture[] = docs;
+                return cultures;
+            });
     }
 
     add(culture: Culture): Promise<Culture> {
         return this._model.create(culture).then(doc => {
             const culture: Culture = {
                 id: doc._id,
-                class: doc.class,
-                culture: doc.culture,
-                type: doc.type,
-                region: doc.region,
-                ini: doc.ini,
-                mid: doc.mid,
-                end: doc.end,
-                maxCropHeight: doc.maxCropHeight,
-                imageLink: doc.imageLink,
+                ...doc.toObject()
             }
             return culture;
         });
@@ -73,15 +65,7 @@ export class CultureGateway implements ICultureGateway {
         return this._model.findByIdAndUpdate(id, culture).then(doc => {
             const culture: Culture = {
                 id: doc._id,
-                class: doc.class,
-                culture: doc.culture,
-                type: doc.type,
-                region: doc.region,
-                ini: doc.ini,
-                mid: doc.mid,
-                end: doc.end,
-                maxCropHeight: doc.maxCropHeight,
-                imageLink: doc.imageLink,
+                ...doc.toObject(),
             }
             return culture;
         });
@@ -92,15 +76,7 @@ export class CultureGateway implements ICultureGateway {
         return this._model.findByIdAndRemove(id).then(doc => {
             const culture: Culture = {
                 id: doc._id,
-                class: doc.class,
-                culture: doc.culture,
-                type: doc.type,
-                region: doc.region,
-                ini: doc.ini,
-                mid: doc.mid,
-                end: doc.end,
-                maxCropHeight: doc.maxCropHeight,
-                imageLink: doc.imageLink,
+                ...doc.toObject()
             }
             return culture;
         });
@@ -110,15 +86,7 @@ export class CultureGateway implements ICultureGateway {
         return this._model.findOneAndRemove(culture).then(doc => {
             const culture: Culture = {
                 id: doc._id,
-                class: doc.class,
-                culture: doc.culture,
-                type: doc.type,
-                region: doc.region,
-                ini: doc.ini,
-                mid: doc.mid,
-                end: doc.end,
-                maxCropHeight: doc.maxCropHeight,
-                imageLink: doc.imageLink,
+                ...doc.toObject()
             }
             return culture;
         });

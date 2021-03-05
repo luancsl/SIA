@@ -29,5 +29,37 @@ export const getGlobalRadiation = (mes: number, lat: number): any => {
         result = -90;
     }
 
-    return result * 2.45;
+    return parseFloat((result * 2.45).toFixed(2));
 }
+
+export const convertDMStoDD = (cood: string): number => {
+
+    const position = (letter: string, cood: number): number => {
+        const value = letter.toLowerCase();
+        switch (value) {
+            case 's':
+                return cood * -1
+            case 'w':
+                return cood * -1
+            default:
+                return cood;
+        }
+    }
+
+    const DMStoDD = (obj: any): number => {
+        const result = obj.grau + ((obj.minute + (obj.second / 60)) / 60);
+        return parseFloat(position(obj.letter, result).toFixed(6));
+    }
+
+    const coodDMS = {
+        grau: parseInt(cood.substr(0, 2)),
+        minute: parseInt(cood.substr(2, 2)),
+        second: parseFloat(cood.substr(4, cood.length)),
+        letter: cood.substr(-1, 1),
+    }
+
+    return DMStoDD(coodDMS)
+
+}
+
+console.log(getGlobalRadiation(6, -8.897508))

@@ -20,4 +20,12 @@ export class GetClimate {
         }
         return this.climateGateway.getClimePeriod(lat, lng, startDate, endDate);
     }
+
+    setClimateGateway(climateGateway: IClimateGateway) {
+        this.climateGateway = climateGateway;
+    }
+
+    setClimateValidation(climateValidation: IValidation) {
+        this.climateValidation = climateValidation;
+    }
 }

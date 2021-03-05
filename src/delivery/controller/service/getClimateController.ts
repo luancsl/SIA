@@ -1,6 +1,6 @@
 import { Controller, HttpRequest, HttpResponse } from "../index";
 import { IClimateGateway, IStationGateway } from "@src/data/gateway";
-import { InmetProvider, NasaPowerProvider, AfrigisProvider } from "@src/infrastructure/service/index";
+import { InmetProvider, NasaPowerProvider, AfrigisProvider, AemetProvider, NoaaProvider } from "@src/infrastructure/service/index";
 import { GetClimate, GetStationByDistance } from "@domain/usercase";
 import { IValidation, RequiredFieldValidation, ValidationComposite, } from "@src/helper/validations";
 import { okay, badRequest } from "@src/helper/http";
@@ -11,6 +11,8 @@ const providers = {
     'inmet': InmetProvider,
     'nasaPower': NasaPowerProvider,
     'afrigis': AfrigisProvider,
+    'aemet': AemetProvider,
+    'noaa': NoaaProvider
 }
 
 export class GetClimateController implements Controller {

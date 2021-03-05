@@ -11,8 +11,8 @@ export class GetCulture {
         this.cultureGateway = cultureGateway;
     }
 
-    async getAll(): Promise<Culture[]> {
-        return this.cultureGateway.getAll();
+    async getAll(query: any = {}): Promise<Culture[]> {
+        return this.cultureGateway.getAll(query);
     }
 
     async getById(id: number): Promise<Culture> {

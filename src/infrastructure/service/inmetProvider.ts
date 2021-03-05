@@ -37,7 +37,7 @@ export class InmetProvider implements IClimateGateway {
                     const date = dayjs(obj['DT_MEDICAO'], 'YYYY-MM-DD').format('YYYYMMDD');
                     const utc = parseFloat(obj['HR_MEDICAO']);
                     const radQg = parseFloat(obj['RAD_GLO']);
-                    const radQo = parseFloat(getGlobalRadiation(dayjs(startDate, 'YYYYMMDD').month(), lat));
+                    const radQo = parseFloat(getGlobalRadiation(dayjs(date, 'YYYYMMDD').month(), lat));
                     const hum = parseFloat(obj['UMD_INS']);
                     const tmax = parseFloat(obj['TEM_MAX']);
                     const tmin = parseFloat(obj['TEM_MIN']);
@@ -45,6 +45,7 @@ export class InmetProvider implements IClimateGateway {
 
                     dataFrame = dataFrame.appendPair([1, { date: date, utc: utc, tMax: tmax, tMin: tmin, hum: hum, windS: wind, radQg: radQg, radQo: radQo }]);
                 }
+
             })
 
             dataFrame = dataFrame.resetIndex();

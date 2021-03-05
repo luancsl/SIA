@@ -18,10 +18,14 @@ export class AddCultureController implements Controller {
         const culture: Culture = new HttpRequestToCultureFactory(httpRequest).make();
 
         const validations: IValidation[] = [
-            new RequiredFieldValidation('culture'),
-            new RequiredFieldValidation('ini'),
-            new RequiredFieldValidation('mid'),
-            new RequiredFieldValidation('end'),
+            new RequiredFieldValidation('name.enUS'),
+            new RequiredFieldValidation('name.ptBR'),
+            new RequiredFieldValidation('class.ptBR'),
+            new RequiredFieldValidation('iniStagekc'),
+            new RequiredFieldValidation('midStagekc'),
+            new RequiredFieldValidation('endStagekc'),
+            new RequiredFieldValidation('icon'),
+            new RequiredFieldValidation('source'),
         ];
 
         const addCulture = new AddCulture(this.cultureGateway, new ValidationComposite(validations));
