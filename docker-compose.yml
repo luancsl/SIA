@@ -13,7 +13,7 @@ services:
     networks:
       - default
     ports:
-      - "27017:27017"
+      - "27017"
     labels:
       - traefik.enable=false
   app:
@@ -27,7 +27,7 @@ services:
         - default
         - web
     ports:
-      - "3000:3000"
+      - "3000"
     volumes:
       - ./package.json:/home/node/app/package.json
       - ./src:/home/node/app/src
