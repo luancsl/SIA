@@ -1,18 +1,32 @@
 version: "3"
 
+networks:
+  - sia_network:
+      external: false
+
 services:
-  db:
+  db_sia:
     image: mongo:latest
     restart: always
+    network:
+      - sia_network
     ports:
       - "27017:27017"
-  app:
+  app_sia:
     build: .
     restart: always
     working_dir: /home/node/app
     command: npm run prod
     environment:
       - MONGO_URL=mongodb://db:27017/sia
+    labels:
+      - traefik.backend=app_sia
+      - traefik.frontend.rule=Host:sia.api.uname.group
+      - traefik.docker.network=web
+      - traefik.port=3000
+    networks:
+      - sia_network
+      - web
     ports:
       - "3000:3000"
     volumes:
