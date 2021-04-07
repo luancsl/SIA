@@ -1,9 +1,9 @@
 version: "3"
 
 networks:
-  sia_network:
-    external: false
-
+  - sia_network:
+      external: false
+      
 services:
   db_sia:
     image: mongo:latest
@@ -33,4 +33,4 @@ services:
       - ./package.json:/home/node/app/package.json
       - ./src:/home/node/app/src
     links:
-      - db
+      - db_sia
