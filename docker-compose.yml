@@ -24,7 +24,7 @@ services:
     environment:
       - MONGO_URL=mongodb://db:27017/sia
     labels:
-      - traefik.backend=sia_app
+      - traefik.backend=app
       - traefik.frontend.rule=Host:sia.api.uname.group
       - traefik.docker.network=web
       - traefik.port=3000
