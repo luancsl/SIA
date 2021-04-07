@@ -23,9 +23,9 @@ services:
       - ./src:/home/node/app/src
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.cal.rule=Host(`sia.uname.group`)"
-      - "traefik.http.routers.cal.entrypoints=web"
-      - "traefik.http.services.cal.loadbalancer.server.port=3000"
+      - "traefik.http.routers.app.rule=Host(`app.uname.group`)"
+      - "traefik.http.routers.app.entrypoints=web"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
     links:
       - db
     depends_on:
