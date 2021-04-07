@@ -1,6 +1,8 @@
 version: "3"
 
 networks:
+  default:
+    external: false
   web:
     external: true
       
@@ -8,6 +10,8 @@ services:
   db:
     image: mongo:latest
     restart: always
+    networks: 
+      - default
     ports:
       - "27017:27017"
     labels:
@@ -25,6 +29,7 @@ services:
       - traefik.docker.network=web
       - traefik.port=3000
     networks:
+      - default
       - web
     ports:
       - "3000:3000"
@@ -32,4 +37,6 @@ services:
       - ./package.json:/home/node/app/package.json
       - ./src:/home/node/app/src
     links:
+      - db
+    depends_on:
       - db
