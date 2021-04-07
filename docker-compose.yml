@@ -3,6 +3,8 @@ version: "3"
 networks:
   sia_network:
     external: false
+  web:
+    external: true
       
 services:
   db_sia:
