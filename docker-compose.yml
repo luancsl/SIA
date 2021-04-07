@@ -33,9 +33,10 @@ services:
       - ./src:/home/node/app/src
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.sia_app_1.rule=Host(`sia.api.uname.group`)"
-      - "traefik.http.routers.sia_app_1.entrypoints=web"
-      - "traefik.http.services.sia_app_1.loadbalancer.server.port=3000"
+      - "traefik.http.routers.app.rule=Host(`sia.api.uname.group`)"
+      - "traefik.http.routers.app.entrypoints=web"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
+      - "traefik.docker.network=web"
     links:
       - db
     depends_on:
