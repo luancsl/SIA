@@ -1,17 +1,10 @@
 version: "3"
 
-networks:
-  default:
-    external: false
-  web:
-    external: true
       
 services:
   db:
     image: mongo:latest
     restart: always
-    networks: 
-      - default
     ports:
       - "27017:27017"
     labels:
@@ -23,19 +16,16 @@ services:
     command: npm run prod
     environment:
       - MONGO_URL=mongodb://db:27017/sia
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.cal.rule=Host(`sia.api.uname.group`)"
-      - "traefik.http.routers.cal.entrypoints=web"
-      - "traefik.http.services.cal.loadbalancer.server.port=3000"
-    networks:
-      - default
-      - web
     ports:
       - "3000:3000"
     volumes:
       - ./package.json:/home/node/app/package.json
       - ./src:/home/node/app/src
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cal.rule=Host(`sia.uname.group`)"
+      - "traefik.http.routers.cal.entrypoints=web"
+      - "traefik.http.services.cal.loadbalancer.server.port=3000"
     links:
       - db
     depends_on:
