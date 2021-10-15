@@ -3,6 +3,7 @@ import { ClimateCapsule, Clime } from "@domain/entity";
 
 export const climeToJsonOldRoutePresenter = (clime: any): object => {
     const { date, tMax, tMin, hum, windS, radQg, radQo, ...rest } = clime;
+    console.log('PURE3 >>>', rest);
     return {
         Date: date,
         Tmax: tMax ?? -99,
@@ -17,7 +18,7 @@ export const climeToJsonOldRoutePresenter = (clime: any): object => {
 }
 
 export const climateToJsonOldRoutePresenter = (climateCapsule: any): object => {
-
+    console.log('PURE45 >>>', climateCapsule);
     if (climateCapsule.station) {
         return {
             features: {

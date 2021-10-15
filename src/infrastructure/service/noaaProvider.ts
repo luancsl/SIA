@@ -50,7 +50,8 @@ export class NoaaProvider implements IClimateGateway {
 
             const meta = result.metadata
             const data = result.results
-
+            console.log("REDUCE <<<< ", data);
+            
             let dataGroupByDate = data.reduce((r, a) => {
                 r[a.date] = [...r[a.date] || [], a];
                 return r;

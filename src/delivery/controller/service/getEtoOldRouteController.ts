@@ -89,7 +89,7 @@ export class GetEtoOldRouteController implements Controller {
                 } else {
                     eto = getEtoBestEquation.handle({ ...clime, lat: climateCapsula.lat, elevation: climateCapsula.elevation });
                 }
-
+                console.log('PURE2 >>>', eto);
                 const data: ClimeComposedEto = {
                     ...clime,
                     equation: eto.equation,

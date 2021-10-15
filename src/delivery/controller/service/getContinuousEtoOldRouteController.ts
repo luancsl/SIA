@@ -72,7 +72,8 @@ export class GetContinuousEtoOldRouteController implements Controller {
         } catch (error) {
             return badRequest(error);
         }
-
+        
+        
         const getClimate = new GetClimate(climateProvider, new ValidationComposite(climateValidations));
 
         return getClimate.getClimate(lat, lng, startDate, endDate).then(climateCapsula => {
@@ -86,6 +87,8 @@ export class GetContinuousEtoOldRouteController implements Controller {
                 } else {
                     eto = getEtoBestEquation.handle({ ...clime, lat: climateCapsula.lat, elevation: climateCapsula.elevation });
                 }
+
+                console.log('PURE >>>', eto);
 
                 const data: ClimeComposedEto = {
                     ...clime,

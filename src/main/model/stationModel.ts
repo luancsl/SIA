@@ -43,4 +43,4 @@ const stationSchema = new Schema(
 
 stationSchema.index({ "location": "2dsphere" });
 
-export const stationModel: Model<IStationModel> = mongoose.model('Station', stationSchema);
+export const stationModel: Model<IStationModel> = mongoose.model<IStationModel>('Station', stationSchema);

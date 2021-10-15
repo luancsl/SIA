@@ -106,4 +106,4 @@ const CultureSchema: Schema = new Schema(
 
 CultureSchema.index({ '$**': 'text' }, { default_language: "portuguese" });
 
-export const CultureModel: Model<ICultureModel> = mongoose.model('Culture', CultureSchema);
+export const CultureModel: Model<ICultureModel> = mongoose.model<ICultureModel>('Culture', CultureSchema);
