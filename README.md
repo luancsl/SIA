@@ -4,4 +4,4 @@ A Smart Irrigation API (SIA) é uma Application Programming Interface (API) do t
 
 Os dados das estações meteorológicas de superfície são acessados de quatro entidades provedoras, Agência Estatal de Meteorologia (AEMET), Geographic Information System of Africa (AFRIGIS), Instituto Nacional de Meteorologia (INMET) e National Oceanic and Atmospheric Administration (NOAA).
 
-![Alt text](doc/sia.png "SIA")
+![Alt text](doc/SIA.png "SIA")
