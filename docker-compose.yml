@@ -8,7 +8,7 @@ networks:
       
 services:
   db:
-    image: mongo:latest
+    image: mongo:3.6.18
     restart: always
     networks:
       - default
